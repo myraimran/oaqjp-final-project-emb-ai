@@ -1,5 +1,6 @@
 # Import the requests library to handle HTTP requests
-import requests  
+import requests
+import json
 
 # Define a function named emotion_detector that takes a string input (text_to_analyse)
 def emotion_detector(text_to_analyse):  
@@ -15,5 +16,31 @@ def emotion_detector(text_to_analyse):
     # Send a POST request to the API with the text and headers
     response = requests.post(url, json = myobj, headers = header)
 
-    # Return the response text from the API
-    return response.text
+     # Parsing the JSON response from the API
+    formatted_response = json.loads(response.text)
+
+    # Extracting emotional scores from the response
+    anger_score = formatted_response['emotionPredictions'][0]['emotion']['anger']
+    disgust_score = formatted_response['emotionPredictions'][0]['emotion']['disgust']
+    fear_score = formatted_response['emotionPredictions'][0]['emotion']['fear']
+    joy_score = formatted_response['emotionPredictions'][0]['emotion']['joy']
+    sadness_score = formatted_response['emotionPredictions'][0]['emotion']['sadness']
+    
+    #finding the dominant emotion by comparing scores
+    dominant_emotion = 'NONE'
+    dominant_emotion_score = max(anger_score, disgust_score, fear_score, joy_score, sadness_score)
+
+    if dominant_emotion_score == anger_score:
+        dominant_emotion = 'ANGER'
+    elif dominant_emotion_score == disgust_score:
+        dominant_emotion = 'DISGUST'
+    elif dominant_emotion_score == fear_score:
+        dominant_emotion = 'FEAR'
+    elif dominant_emotion_score == joy_score:
+        dominant_emotion = 'JOY'
+    else:
+        dominant_emotion = 'SADNESS'    
+
+    # Returning a dictionary containing emotion predict results
+    return {'anger': anger_score, 'disgust': disgust_score, 'fear': fear_score, 'joy': joy_score,'sadness': sadness_score,
+    'dominant_emotion': dominant_emotion}
