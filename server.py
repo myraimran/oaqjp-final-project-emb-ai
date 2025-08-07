@@ -30,8 +30,15 @@ def sent_detector():
     sadness_score = response['sadness']
     dominant_emotion = response['dominant_emotion']
 
+    # Check if the label is None, indicating an error or invalid input
+    if anger_score is None:
+        return "Invalid text! Please try again!"
+
     # Return a formatted string with the emotional scores and dominant emotion
-    return "For the given statement, the system response is 'anger': {}, 'disgust': {}, 'fear': {}, 'joy': {} and 'sadness': {}. The dominant emotion is {}.".format(anger_score, disgust_score, fear_score, joy_score, sadness_score, dominant_emotion)
+    message_1 = f"'anger': {anger_score}, 'disgust': {disgust_score},"
+    message_2 = f" 'fear': {fear_score}, 'joy': {joy_score}, 'sadness': {sadness_score}"
+    scores = f"{message_1}{message_2}"
+    return f"The emotional scores are {scores}. The dominant emotion is {dominant_emotion}."
 
 @app.route("/")
 def render_index_page():
@@ -41,6 +48,4 @@ def render_index_page():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    ''' This functions executes the flask app and deploys it on localhost:5000
-    '''
     app.run(host = "0.0.0.0", port = 5000)
