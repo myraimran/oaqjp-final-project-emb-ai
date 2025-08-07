@@ -42,5 +42,7 @@ def emotion_detector(text_to_analyse):
         dominant_emotion = 'SADNESS'    
 
     # Returning a dictionary containing emotion predict results
-    return {'anger': anger_score, 'disgust': disgust_score, 'fear': fear_score, 'joy': joy_score,'sadness': sadness_score,
+    print( {'anger': anger_score, 'disgust': disgust_score, 'fear': fear_score, 'joy': joy_score, 'sadness': sadness_score,
+    'dominant_emotion': dominant_emotion})
+    return {'anger': anger_score, 'disgust': disgust_score, 'fear': fear_score, 'joy': joy_score, 'sadness': sadness_score,
     'dominant_emotion': dominant_emotion}
